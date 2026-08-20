@@ -1,0 +1,102 @@
+# ==========================================
+# 1. TRỌNG SỐ MÔ HÌNH AI (WEIGHTS & CHECKPOINTS)
+# ==========================================
+# Các file weight của YOLO, Re-ID model, TensorRT... nặng từ vài chục MB đến vài GB
+*.pt
+*.pth
+*.pth.tar
+*.onnx
+*.engine
+*.plan
+*.bin
+*.xml
+*.h5
+*.tflite
+
+# Thư mục chứa weights
+weights/
+checkpoints/
+pretrained/
+models_checkpoint/
+
+# ==========================================
+# 2. DỮ LIỆU VIDEO, HÌNH ẢNH & DATASET
+# ==========================================
+# File video đầu vào / đầu ra thử nghiệm
+*.mp4
+*.avi
+*.mkv
+*.mov
+*.flv
+*.webm
+
+# Thư mục lưu trữ dữ liệu video & dataset
+data/
+datasets/
+test_videos/
+input_videos/
+sample_videos/
+synthetic_test_video.mp4
+
+# ==========================================
+# 3. EMBEDDINGS & TRACKING CACHE
+# ==========================================
+# Cache chứa feature vectors (Re-ID embeddings) hoặc dữ liệu lưu tạm
+*.npy
+*.npz
+*.pkl
+*.pickle
+*.parquet
+*.db
+*.sqlite
+*.sqlite3
+
+# ==========================================
+# 4. KẾT QUẢ XUẤT RA & LOGS (OUTPUTS & LOGS)
+# ==========================================
+# Kết quả crop ảnh đối tượng, video xuất ra, log huấn luyện
+output/
+outputs/
+runs/
+results/
+logs/
+*.log
+wandb/
+tb_logs/
+
+# ==========================================
+# 5. MÔI TRƯỜNG PYTHON & CACHE CODE
+# ==========================================
+# Thư mục rác của Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Môi trường ảo (Virtual Environment)
+.venv/
+venv/
+env/
+ENV/
+env.bak/
+venv.bak/
+
+# ==========================================
+# 6. CONFIG & BIẾN MÔI TRƯỜNG BẢO MẬT
+# ==========================================
+.env
+.env.local
+*.secret
+
+# ==========================================
+# 7. FILE RÁC CỦA HỆ ĐIỀU HÀNH & IDE
+# ==========================================
+# VS Code / PyCharm / Jupyter Notebook
+.vscode/
+.idea/
+.ipynb_checkpoints/
+
+# Windows / macOS
+.DS_Store
+Thumbs.db
+desktop.ini
