@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 PYTHON MINI-TRITON INFERENCE SERVER (PURE PYTHON MULTIPROCESSING PATTERN)
 --------------------------------------------------------------------------------
@@ -22,13 +23,15 @@ from multiprocessing import Process, Queue
 
 class DetectionResult:
     """Đơn vị lưu trữ kết quả Bounding Box phát hiện đối tượng."""
-    def __init__(self, box, score, classname='person'):
+    def __init__(self, box, score, classname='person', track_id=None):
         self.box = box            # [x1, y1, x2, y2]
         self.score = score        # Confidence score (0..1)
         self.classname = classname
+        self.track_id = track_id
 
     def __repr__(self):
-        return f"DetectionResult(box={self.box}, score={self.score:.2f}, class={self.classname})"
+        id_str = f", id={self.track_id}" if self.track_id is not None else ""
+        return f"DetectionResult(box={self.box}, score={self.score:.2f}, class={self.classname}{id_str})"
 
 
 class MockDetectorEngine:
@@ -86,13 +89,15 @@ class PythonMiniTritonServer(Process):
     Tiến trình AI Trung tâm (Tương đương Triton Inference Server).
     Chỉ chạy 1 Instance duy nhất trên GPU/CPU, quản lý Dynamic Batching.
     """
-    def __init__(self, request_queue: Queue, response_queues: dict, max_batch_size=8, max_delay_sec=0.005, use_real_yolo=True):
+    def __init__(self, request_queue: Queue, response_queues: dict, max_batch_size=8, max_delay_sec=0.005, use_real_yolo=True, ready_event=None, device=None):
         super().__init__()
         self.request_queue = request_queue
         self.response_queues = response_queues
         self.max_batch_size = max_batch_size
         self.max_delay_sec = max_delay_sec
         self.use_real_yolo = use_real_yolo
+        self.ready_event = ready_event
+        self.device = device
         self.daemon = True
 
     def run(self):
@@ -102,13 +107,19 @@ class PythonMiniTritonServer(Process):
         if self.use_real_yolo:
             try:
                 import torch
-                device = "cuda" if torch.cuda.is_available() else "cpu"
-                detector_engine = RealYoloDetectorEngine(model_path="yolov8n.pt", device=device, conf_thresh=0.35)
+                if self.device is not None:
+                    target_device = self.device
+                else:
+                    target_device = "cuda" if torch.cuda.is_available() else "cpu"
+                detector_engine = RealYoloDetectorEngine(model_path="yolov8n.pt", device=target_device, conf_thresh=0.35)
             except Exception as e:
                 print(f"[Python-Mini-Triton] Warning: Could not load Real YOLO ({e}). Falling back to Mock Engine.")
                 detector_engine = MockDetectorEngine()
         else:
             detector_engine = MockDetectorEngine()
+
+        if self.ready_event is not None:
+            self.ready_event.set()
 
 
         while True:

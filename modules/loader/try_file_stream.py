@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 FILE VIDEO STREAM LOADER (THREADED PRODUCER-CONSUMER PATTERN) - con thỏ
 --------------------------------------------------------------------------------
@@ -96,7 +97,6 @@ class FileVideoStream:
                 grabbed, frame =self.stream.read()
         
                 if not grabbed or frame is None:
-                    print(f"Read all the video")
                     self.stopped = True
                     break
 
@@ -145,6 +145,8 @@ class FileVideoStream:
         self.stopped = True
         if self.thread.is_alive():
             self.thread.join()
+        if hasattr(self, 'stream') and self.stream is not None and self.stream.isOpened():
+            self.stream.release()
 
         print(f"Da stop hoan toan doc Video Stream: {self.path}")
 

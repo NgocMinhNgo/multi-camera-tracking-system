@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 Script này thử nghiệm luồng đọc video bằng FileVideoStream.
 """
@@ -7,6 +8,9 @@ import cv2
 import time
 import numpy as np
 
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
 from modules.loader.try_file_stream import FileVideoStream
 
 # Thiết lập UTF-8 encoding cho Windows Terminal
@@ -14,7 +18,9 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8')
 
 def run_test():
-    test_video_path = r"C:\Users\Admin\Downloads\tmp_prj\synthetic_test_video.mp4"
+    base_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(base_dir)
+    test_video_path = os.path.join(project_root, "short_data", "camera_0351", "video.mp4")
 
 
     # Khởi tạo FileVideoStream đọc file video từ đĩa bằng background thread

@@ -1,10 +1,11 @@
+# -*- coding: utf-8 -*-
 """
 SCRIPT TRÍCH XUẤT VIDEO NGẮN (1 PHÚT) TỪ SCENE REAL DATA
 --------------------------------------------------------------------------------
 Mục đích:
-1. Quét 5 folder camera trong D:\\tmp_prj\\multi-camera-tracking-system\\data\\scene040.
+1. Quét 5 folder camera trong <project_root>/data/scene040.
 2. Trích xuất 1 phút đầu tiên (60 giây) của từng video.
-3. Lưu video ngắn tương ứng vào D:\\tmp_prj\\multi-camera-tracking-system\\short_data\\<camera_id>\\video.mp4.
+3. Lưu video ngắn tương ứng vào <project_root>/short_data/<camera_id>/video.mp4.
 """
 
 import os

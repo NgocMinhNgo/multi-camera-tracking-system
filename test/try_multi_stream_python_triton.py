@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 SCRIPT KIỂM THỬ BƯỚC 2: MULTI-CAMERA STREAM LOADER + PYTHON MINI-TRITON INFERENCE SERVER
 --------------------------------------------------------------------------------
@@ -16,6 +17,9 @@ import os
 import sys
 import time
 from multiprocessing import Process, Queue, set_start_method
+
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.loader.try_file_stream import FileVideoStream
 from modules.detection.python_mini_triton import PythonMiniTritonServer, PythonMiniTritonClient
@@ -102,9 +106,10 @@ def main():
     print("================================================================================")
 
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    cam1_path = os.path.join(base_dir, "synthetic_cam1.mp4")
-    cam2_path = os.path.join(base_dir, "synthetic_cam2.mp4")
-    cam3_path = os.path.join(base_dir, "synthetic_cam3.mp4")
+    project_root = os.path.dirname(base_dir)
+    cam1_path = os.path.join(project_root, "short_data", "camera_0351", "video.mp4")
+    cam2_path = os.path.join(project_root, "short_data", "camera_0353", "video.mp4")
+    cam3_path = os.path.join(project_root, "short_data", "camera_0358", "video.mp4")
 
     camera_configs = [
         {"id": "CAM_01", "path": cam1_path, "cam_fps": 30, "start_time": "2026-08-18 10:00:00"},

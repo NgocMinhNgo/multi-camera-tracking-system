@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 """
 SCRIPT KIỂM THỬ MULTI-CAMERA STREAM LOADER (MULTIPROCESSING PATTERN)
 --------------------------------------------------------------------------------
@@ -13,6 +14,9 @@ import time
 import cv2
 import numpy as np
 from multiprocessing import Process, Queue, set_start_method
+
+# Ensure project root is in sys.path
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from modules.loader.try_file_stream import FileVideoStream
 
@@ -92,11 +96,12 @@ def main():
     if sys.platform == 'win32':
         set_start_method('spawn', force=True)
 
-    # 1. Chuẩn bị 3 file video giả lập cho 3 Camera
+    # 1. Chuẩn bị 3 file video cho 3 Camera từ short_data
     base_dir = os.path.dirname(os.path.abspath(__file__))
-    cam1_path = os.path.join(base_dir, "synthetic_cam1.mp4")
-    cam2_path = os.path.join(base_dir, "synthetic_cam2.mp4")
-    cam3_path = os.path.join(base_dir, "synthetic_cam3.mp4")
+    project_root = os.path.dirname(base_dir)
+    cam1_path = os.path.join(project_root, "short_data", "camera_0351", "video.mp4")
+    cam2_path = os.path.join(project_root, "short_data", "camera_0353", "video.mp4")
+    cam3_path = os.path.join(project_root, "short_data", "camera_0358", "video.mp4")
 
 
     # 2. Cấu hình 3 Luồng Camera cùng mốc thời gian thực tế
